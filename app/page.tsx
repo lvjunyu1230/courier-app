@@ -1,6 +1,7 @@
 // app/page.tsx (看板布局 - 完整版)
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/utils/supabase/server"; // ✅ 指向我们新的、安全的、只读的 utils/supabase/server.ts 文件
+
 import { OrderCard } from "@/components/OrderCard"; // 导入我们新的可复用组件
 
 // 定义 Order 类型的接口，以获得 TypeScript 的类型提示

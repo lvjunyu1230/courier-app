@@ -1,6 +1,7 @@
 // app/my-orders/page.tsx
 
-import { createClient as createServerSupabaseClient } from '@/lib/supabase/server';
+import { createClient as createServerSupabaseClient } from '@/utils/supabase/server'; // ✅ 指向我们新的、安全的、只读的 utils/supabase/server.ts 文件
+
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';

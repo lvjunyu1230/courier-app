@@ -1,12 +1,16 @@
-// components/Header.tsx (修正版)
+// components/Header.tsx (最终、绝对安全版)
 
-import { createClient as createServerSupabaseClient } from '@/lib/supabase/server';
+// 1. ✅ 关键修正：确保导入路径是 @/utils/supabase/server
+import { createClient } from '@/utils/supabase/server'; 
+
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { logout } from '@/app/login/actions-logout'; // 1. ✅ 导入你的 logout Server Action
+import { logout } from '@/app/login/actions-logout';
 
+// Header 是一个 async 组件，它自己获取数据
 export default async function Header() {
-  const supabase = await createServerSupabaseClient();
+  // 2. ✅ 现在这个 createClient() 调用的是我们全新的、安全的客户端
+  const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
@@ -22,12 +26,9 @@ export default async function Header() {
                 我的订单
               </Link>
               <span className="text-sm">{user.email}</span>
-              
-              {/* 2. ✅ 将 form 的 action 直接绑定到导入的 logout 函数上 */}
               <form action={logout}>
                 <Button type="submit" variant="secondary" size="sm">退出</Button>
               </form>
-
             </div>
           ) : (
             <div className="flex items-center gap-4">

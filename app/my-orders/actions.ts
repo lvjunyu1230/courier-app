@@ -2,7 +2,8 @@
 
 'use server';
 
-import { createClient as createServerSupabaseClient } from '@/lib/supabase/server';
+import { createClient as createServerSupabaseClient } from '@/lib/supabase/actions'; // ✅ 指向我们新的、可写的 actions.ts 文件
+
 import { revalidatePath } from 'next/cache';
 
 type ActionResult = {

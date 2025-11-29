@@ -1,5 +1,6 @@
 // app/auth/callback/route.ts
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createClient as createServerSupabaseClient } from '@/utils/supabase/server'; // ✅ 指向我们新的、安全的、只读的 utils/supabase/server.ts 文件
+
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {

@@ -1,7 +1,8 @@
 // app/login/actions.ts
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from "@/lib/supabase/actions"; // ✅ 指向我们新的、可写的 actions.ts 文件
+
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
