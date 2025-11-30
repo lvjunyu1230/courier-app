@@ -1,7 +1,8 @@
 // app/create-order/actions.ts
 "use server";
 
-import { createClient, createClient as createServerSupabaseClient } from '@/utils/supabase/server'; // ✅ 指向我们新的、安全的、只读的 utils/supabase/server.ts 文件
+import { createClient } from '@/lib/supabase/actions'; // ✅ 指向我们为 Actions 创建的可写客户端
+
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";

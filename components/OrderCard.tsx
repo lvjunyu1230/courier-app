@@ -1,11 +1,11 @@
-// components/OrderCard.tsx
+// components/OrderCard.tsx (在你的代码基础上修改)
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { takeOrder } from "@/app/actions";
 
-// 定义组件接收的 props 类型
+// 定义组件接收的 props 类型 (保持不变)
 interface OrderCardProps {
   order: {
     id: string;
@@ -17,18 +17,31 @@ interface OrderCardProps {
     requester_id: string;
     status: string;
   };
-  user: { id: string } | null; // 当前登录用户
+  user: { id: string } | null;
 }
 
 export function OrderCard({ order, user }: OrderCardProps) {
-  // ==================== ↓↓↓ 核心逻辑：判断是否为自己的订单 ↓↓↓ ====================
   const isMyOrder = user?.id === order.requester_id;
-  // ==================== ↑↑↑ 核心逻辑：判断是否为自己的订单 ↑↑↑ ====================
+
+  // ==================== ↓↓↓ 新增：渲染状态徽章的函数 ↓↓↓ ====================
+  const renderStatusBadge = () => {
+    switch (order.status) {
+      case 'pending':
+        return <Badge variant="default">待接单</Badge>; // 蓝色
+      case 'in_progress':
+        return <Badge variant="secondary">进行中</Badge>; // 灰色
+      case 'completed':
+        // 使用自定义颜色让“已完成”更突出
+        return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">已完成</Badge>;
+      default:
+        // 对于任何未知状态，显示一个通用的徽章
+        return <Badge variant="outline">{order.status}</Badge>;
+    }
+  };
+  // ==================== ↑↑↑ 新增：渲染状态徽章的函数 ↑↑↑ ====================
 
   return (
-    // ==================== ↓↓↓ 核心修改 1：添加 relative 定位容器 ↓↓↓ ====================
     <Card className="flex flex-col relative"> 
-      {/* 如果是自己的订单，就在右上角显示一个 Badge */}
       {isMyOrder && (
         <Badge 
           variant="default" 
@@ -37,34 +50,37 @@ export function OrderCard({ order, user }: OrderCardProps) {
           我的
         </Badge>
       )}
-    {/* ==================== ↑↑↑ 核心修改 1：添加 relative 定位容器 ↑↑↑ ==================== */}
 
       <CardHeader>
-        <CardTitle className="truncate pr-12">{order.description}</CardTitle> {/* 增加右边距，避免与 Badge 重叠 */}
+        <CardTitle className="truncate pr-12">{order.description}</CardTitle>
         <CardDescription>
           发布于: {new Date(order.created_at).toLocaleString()}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow space-y-2">
+        {/* ==================== ↓↓↓ 新增：在这里调用状态徽章函数 ↓↓↓ ==================== */}
+        <div className="flex items-center space-x-2">
+          <span className="text-sm font-medium text-gray-600">状态:</span>
+          {renderStatusBadge()}
+        </div>
+        {/* ==================== ↑↑↑ 新增：在这里调用状态徽章函数 ↑↑↑ ==================== */}
         <p><strong>从:</strong> {order.pickup_location}</p>
         <p><strong>到:</strong> {order.delivery_location}</p>
       </CardContent>
       <CardFooter className="flex justify-between items-center">
         <Badge variant="secondary">悬赏 ¥{order.reward}</Badge>
         
-        {/* ==================== ↓↓↓ 核心修改 2：简化按钮逻辑 ↓↓↓ ==================== */}
-        {/* 只有在 'pending' 状态且非自己的订单时，才显示“接单”按钮 */}
+        {/* 接单按钮逻辑保持完全不变 */}
         {order.status === 'pending' && !isMyOrder && user && (
           <form action={takeOrder.bind(null, order.id)}>
             <Button type="submit">接单</Button>
           </form>
         )}
 
-        {/* 只有在 'in_progress' 状态且是自己的订单时，才显示“确认完成”按钮 */}
+        {/* 这里的禁用按钮逻辑也保持完全不变 */}
         {order.status === 'in_progress' && isMyOrder && (
-          <Button disabled>确认完成</Button> // 暂时禁用
+          <Button disabled>确认完成</Button>
         )}
-        {/* ==================== ↑↑↑ 核心修改 2：简化按钮逻辑 ↑↑↑ ==================== */}
       </CardFooter>
     </Card>
   );

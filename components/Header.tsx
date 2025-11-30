@@ -1,15 +1,12 @@
-// components/Header.tsx (最终、绝对安全版)
+// components/Header.tsx (添加了发布订单按钮)
 
-// 1. ✅ 关键修正：确保导入路径是 @/utils/supabase/server
 import { createClient } from '@/utils/supabase/server'; 
-
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { logout } from '@/app/login/actions-logout';
+import { PlusIcon } from 'lucide-react'; // ✅ 导入 PlusIcon
 
-// Header 是一个 async 组件，它自己获取数据
 export default async function Header() {
-  // 2. ✅ 现在这个 createClient() 调用的是我们全新的、安全的客户端
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -25,6 +22,15 @@ export default async function Header() {
               <Link href="/my-orders" className="hover:text-gray-300">
                 我的订单
               </Link>
+
+              {/* ✅ 添加了指向 /create-order 的链接按钮 */}
+              <Link href="/create-order">
+                <Button variant="default" size="sm">
+                  <PlusIcon className="h-4 w-4 mr-2" />
+                  发布订单
+                </Button>
+              </Link>
+
               <span className="text-sm">{user.email}</span>
               <form action={logout}>
                 <Button type="submit" variant="secondary" size="sm">退出</Button>

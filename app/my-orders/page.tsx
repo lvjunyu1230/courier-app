@@ -1,11 +1,10 @@
-// app/my-orders/page.tsx
+// app/my-orders/page.tsx (修正版)
 
-import { createClient as createServerSupabaseClient } from '@/utils/supabase/server'; // ✅ 指向我们新的、安全的、只读的 utils/supabase/server.ts 文件
-
+import { createClient as createServerSupabaseClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
-import { MyOrderCard } from '@/components/MyOrderCard'; // 1. 导入我们全新的 MyOrderCard 组件
+import { MyOrderCard } from '@/components/MyOrderCard';
 import type { Order } from '@/types';
 
 export default async function MyOrdersPage() {
@@ -39,9 +38,9 @@ export default async function MyOrdersPage() {
         <h2 className="text-2xl font-semibold mb-4">我发布的 ({publishedOrders.length})</h2>
         {publishedOrders.length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {/* 2. 使用 MyOrderCard 组件 */}
             {publishedOrders.map(order => (
-              <MyOrderCard key={order.id} order={order} mode="published" />
+              // ✅ 关键修正: 将 "published" 改为 "requester"
+              <MyOrderCard key={order.id} order={order} mode="requester" />
             ))}
           </div>
         ) : (
@@ -60,9 +59,9 @@ export default async function MyOrdersPage() {
         <h2 className="text-2xl font-semibold mb-4">我接受的 ({takenOrders.length})</h2>
         {takenOrders.length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {/* 3. 使用 MyOrderCard 组件 */}
             {takenOrders.map(order => (
-              <MyOrderCard key={order.id} order={order} mode="taken" />
+              // ✅ 关键修正: 将 "taken" 改为 "taker"
+              <MyOrderCard key={order.id} order={order} mode="taker" />
             ))}
           </div>
         ) : (
