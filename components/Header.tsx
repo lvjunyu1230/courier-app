@@ -23,6 +23,10 @@ export default async function Header() {
                 我的订单
               </Link>
 
+              <Link href="/profile" className="hover:text-gray-300">
+              个人资料
+              </Link>
+
               {/* ✅ 添加了指向 /create-order 的链接按钮 */}
               <Link href="/create-order">
                 <Button variant="default" size="sm">

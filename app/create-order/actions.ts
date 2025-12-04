@@ -10,7 +10,8 @@ import { redirect } from "next/navigation";
 // 我们不再需要 FormState，因为 action 不再返回状态给 hook
 // export async function createOrder(prevState, formData) { ... } // 旧签名
 export async function createOrder(formData: FormData) { // <--- 新签名：只接收 formData
-  const supabase = await createClient();
+  const supabase = createClient(); // ✅ 无需 await
+
 
   // 1. 验证用户是否登录
   const { data: { user } } = await supabase.auth.getUser();

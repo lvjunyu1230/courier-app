@@ -13,7 +13,7 @@ export default function Loading() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         {/* 模仿第一列 */}
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-npm run devcol space-y-4">
           <Skeleton className="h-8 w-1/2" /> {/* 列标题 */}
           <CardSkeleton /> {/* 卡片骨架 */}
           <CardSkeleton /> {/* 卡片骨架 */}

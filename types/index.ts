@@ -11,3 +11,11 @@ export type Order = {
   delivery_location:string;
   // 你数据库里有的其他字段...
 };
+
+
+export interface Profile {
+  id: string;
+  username: string | null;
+  avatar_url: string | null;
+  // ... 其他字段
+}
